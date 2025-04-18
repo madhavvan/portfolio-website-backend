@@ -32,24 +32,24 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: "Message is required" });
         }
 
-        // Check for XAI_API_KEY
-        if (!process.env.XAI_API_KEY) {
-            console.error("XAI_API_KEY is not set in environment variables");
-            return res.status(500).json({ error: "Server configuration error: Missing XAI_API_KEY" });
+        // Check for OPENAI_API_KEY
+        if (!process.env.OPENAI_API_KEY) {
+            console.error("OPENAI_API_KEY is not set in environment variables");
+            return res.status(500).json({ error: "Server configuration error: Missing OPENAI_API_KEY" });
         }
 
-        // Initialize xAI API
-        console.log("Initializing xAI API client...");
+        // Initialize OpenAI API
+        console.log("Initializing OpenAI API client...");
         const configuration = new Configuration({
-            apiKey: process.env.XAI_API_KEY,
-            basePath: "https://api.x.ai/v1",
+            apiKey: process.env.OPENAI_API_KEY,
+            basePath: "https://api.openai.com/v1", // Use OpenAI's API endpoint
         });
         const openai = new OpenAIApi(configuration);
 
         // Make API call with a system prompt for advanced responses
-        console.log("Sending request to xAI API with message:", message);
+        console.log("Sending request to OpenAI API with message:", message);
         const response = await openai.createChatCompletion({
-            model: "grok-2-latest",
+            model: "gpt-3.5-turbo", // Use an OpenAI model
             messages: [
                 {
                     role: "system",
@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
         });
 
         // Log the response
-        console.log("Received response from xAI API:", response.data);
+        console.log("Received response from OpenAI API:", response.data);
 
         // Return response
         res.status(200).json({
