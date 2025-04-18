@@ -49,7 +49,7 @@ const openai = new OpenAIApi(configuration);
 // Make API call with a system prompt for advanced responses
 console.log("Sending request to xAI API with message:", message);
 const response = await openai.createChatCompletion({
-model: "grok", // Use the correct model (we'll verify this)
+model: "grok-2-latest", // Updated to match the example model
 messages: [
 {
 role: "system",
@@ -57,8 +57,8 @@ content: "You are a highly knowledgeable AI assistant specializing in data analy
 },
 { role: "user", content: message }
 ],
-max_tokens: 500, // Increase for longer, more detailed responses
-temperature: 0.7, // Balance creativity and accuracy
+max_tokens: 500,
+temperature: 0.7,
 });
 
 // Log the response
